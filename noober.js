@@ -1,15 +1,15 @@
-function levelOfService(ride) {
-  let levelOfService
+function levelOfServiceFunction(ride) {
+  let levelOfServiceVariable
   if (ride.length > 1) {
-    levelOfService = 'Noober Pool'
+    levelOfServiceVariable = 'Noober Pool'
   } else if (ride[0].purpleRequested) {
-    levelOfService = 'Noober Purple'
+    levelOfServiceVariable = 'Noober Purple'
   } else if (ride[0].numberOfPassengers > 3) {
-    levelOfService = 'Noober XL'
+    levelOfServiceVariable = 'Noober XL'
   } else {
-    levelOfService = 'Noober X'
+    levelOfServiceVariable = 'Noober X'
   }
-  return levelOfService
+  return levelOfServiceVariable
 }
 
 function renderRides(ridesArray) {
@@ -19,13 +19,13 @@ function renderRides(ridesArray) {
     document.querySelector('.rides').insertAdjacentHTML('beforeend', `
       <h1 class="inline-block mt-8 px-4 py-2 rounded-xl text-2xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
         <i class="fas fa-car-side"></i>
-        <span>${levelOfService(ride)}</span>
+        <span>${levelOfServiceFunction(ride)}</span>
       </h1>
     `)
 
     let borderClass
     let backgroundClass
-    if (levelOfService(ride) == 'Noober Purple') {
+    if (levelOfServiceFunction(ride) == 'Noober Purple') {
       borderClass = 'border-purple-500'
       backgroundClass = 'bg-purple-600'
     } else {
@@ -69,5 +69,80 @@ function renderRides(ridesArray) {
 
 window.addEventListener('DOMContentLoaded', function() {
   // YOUR CODE
-})
 
+    let allRidesButton = document.querySelector('#all-filter')
+    allRidesButton.addEventListener('click', async function(event) {
+      event.preventDefault()
+      document.querySelector('.rides').innerHTML = ''
+      let response = await fetch(`https://kiei451.com/api/rides.json`)
+      let ridesArray = await response.json()
+      renderRides(ridesArray)
+      console.log(ridesArray) 
+    })
+
+    let purpleRidesButton = document.querySelector('#noober-purple-filter')
+    purpleRidesButton.addEventListener('click', async function(event) {
+      event.preventDefault()
+      document.querySelector('.rides').innerHTML = ''
+      let response = await fetch(`https://kiei451.com/api/rides.json`)
+      let ridesArray = await response.json()
+      let purpleArray = []
+      for (z=0; z<ridesArray.length; z++){
+        let ride=ridesArray[z]
+        if (levelOfServiceFunction(ride) == "Noober Purple"){
+          purpleArray.push(ride)
+        }
+      }
+      renderRides(purpleArray)
+    })
+
+    let poolRidesButton = document.querySelector('#noober-pool-filter')
+    poolRidesButton.addEventListener('click', async function(event) {
+      event.preventDefault()
+      document.querySelector('.rides').innerHTML = ''
+      let response = await fetch(`https://kiei451.com/api/rides.json`)
+      let ridesArray = await response.json()
+      let poolArray = []
+      for (y=0; y<ridesArray.length; y++){
+        let ride=ridesArray[y]
+        if (levelOfServiceFunction(ride) == "Noober Pool"){
+          poolArray.push(ride)
+        }
+      }
+      renderRides(poolArray)
+    })
+
+    let xlRidesButton = document.querySelector('#noober-xl-filter')
+    xlRidesButton.addEventListener('click', async function(event) {
+      event.preventDefault()
+      document.querySelector('.rides').innerHTML = ''
+      let response = await fetch(`https://kiei451.com/api/rides.json`)
+      let ridesArray = await response.json()
+      let xlArray = []
+      for (x=0; x<ridesArray.length; x++){
+        let ride=ridesArray[x]
+        if (levelOfServiceFunction(ride) == "Noober XL"){
+          xlArray.push(ride)
+        }
+      }
+      renderRides(xlArray)
+    })
+
+    let xRidesButton = document.querySelector('#noober-x-filter')
+    xRidesButton.addEventListener('click', async function(event) {
+      event.preventDefault()
+      document.querySelector('.rides').innerHTML = ''
+      let response = await fetch(`https://kiei451.com/api/rides.json`)
+      let ridesArray = await response.json()
+      let xArray = []
+      for (w=0; w<ridesArray.length; w++){
+        let ride=ridesArray[w]
+        if (levelOfServiceFunction(ride) == "Noober X"){
+          xArray.push(ride)
+        }
+      }
+      renderRides(xArray)
+    })
+
+
+})
